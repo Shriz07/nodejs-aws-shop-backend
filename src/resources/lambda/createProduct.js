@@ -12,11 +12,9 @@ const headers = {
 exports.handler = async (event) => {
     const body = JSON.parse(event.body);
     console.log(`Recived create product request with body ${JSON.stringify(body)}`);
-    const { id, count, price, title, description } = body;
+    const { count, price, title, description } = body;
 
     const validateInput = (body) => {
-      if (typeof body.id !== 'string') return 'Invalid type for id, expected string';
-      if (body.id === '') return 'Id cannot be empty';
       if (typeof body.count !== 'number' || !Number.isInteger(body.count)) return 'Invalid type for count, expected integer';
       if (body.count < 0) return 'Stock cannot be below 0';
       if (typeof body.price !== 'number') return 'Invalid type for price, expected double';
@@ -39,16 +37,18 @@ exports.handler = async (event) => {
     const productsTableName = process.env.PRODUCTS_TABLE_NAME;
     const stocksTableName = process.env.STOCKS_TABLE_NAME;
 
+    const productId = (Math.floor(Math.random() * (9999999 - 1 + 1)) + 1).toString();
+
     const transactParams = {
         TransactItems: [
             {
                 Put: {
                     TableName: productsTableName,
                     Item: marshall({
-                        id,
-                        price,
-                        title,
-                        description
+                        id: productId,
+                        price: price,
+                        title: title,
+                        description: description
                     })
                 }
             },
@@ -56,7 +56,7 @@ exports.handler = async (event) => {
                 Put: {
                     TableName: stocksTableName,
                     Item: marshall({
-                        product_id: id,
+                        product_id: productId,
                         count
                     })
                 }

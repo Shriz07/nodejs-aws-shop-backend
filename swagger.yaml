@@ -21,6 +21,11 @@ components:
           type: number
         count:
           type: number
+      required:
+        - title
+        - price
+        - count
+        - description
 
 paths:
   /products:
