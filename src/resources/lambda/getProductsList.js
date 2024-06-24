@@ -25,20 +25,18 @@ exports.handler = async (event) => {
 
         const products = [];
 
-        stocksResponse.Items.forEach(stock => {
-            const stockItem = unmarshall(stock);
-            const productId = stockItem.product_id;
-            const product = productsResponse.Items.find(item => unmarshall(item).id === productId);
-            if (product) {
-                const productItem = unmarshall(product);
-                products.push({
-                    description: productItem.description,
-                    id: productItem.id,
-                    price: productItem.price,
-                    title: productItem.title,
-                    count: stockItem.count,
-                });
-            }
+        productsResponse.Items?.forEach(product => {
+            const productItem = unmarshall(product);
+            const productId = product.id;
+            const stock = stocksResponse.Items?.find(item => unmarshall(item).product_id === productId);
+            
+            products.push({
+                description: productItem.description,
+                id: productItem.id,
+                price: productItem.price,
+                title: productItem.title,
+                count: stock?.count,
+            })
         });
 
         return {
@@ -51,7 +49,7 @@ exports.handler = async (event) => {
         return {
             statusCode: 500,
             headers: headers,
-            body: JSON.stringify({ error: 'Could not scan DynamoDB' }),
+            body: JSON.stringify({ error: 'Internal server error' }),
         };
     }
 };

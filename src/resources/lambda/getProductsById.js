@@ -33,13 +33,13 @@ exports.handler = async (event) => {
         const product = productResponse.Item ? unmarshall(productResponse.Item) : null;
         const stock = stockResponse.Item ? unmarshall(stockResponse.Item) : null;
 
-        if (product && stock) {
+        if (product) {
           const response = {
             description: product.description,
             id: product.id,
             price: product.price,
             title: product.title,
-            count: stock.count,
+            count: stock?.count,
           };
           return {
             statusCode: 200,
@@ -58,7 +58,7 @@ exports.handler = async (event) => {
         return {
           statusCode: 500,
           headers: headers,
-          body: JSON.stringify({ error: 'Could not fetch item from DynamoDB' }),
+          body: JSON.stringify({ error: 'Internal server error' }),
         };
     }
 };
