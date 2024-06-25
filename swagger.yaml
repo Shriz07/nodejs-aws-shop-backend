@@ -21,11 +21,6 @@ components:
           type: number
         count:
           type: number
-      required:
-        - title
-        - price
-        - count
-        - description
 
 paths:
   /products:
@@ -49,7 +44,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Product'
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                count:
+                  type: number
+              required:
+                - title
+                - price
+                - count
+                - description
       responses:
         '201':
           description: Product created
