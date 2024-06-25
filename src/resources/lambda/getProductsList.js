@@ -10,7 +10,7 @@ const headers = {
   };
 
 exports.handler = async (event) => {
-    console.log(`Recived get products list request`);
+    console.log('Get products list request', JSON.stringify(body));
     const productsParams = {
         TableName: process.env.PRODUCTS_TABLE_NAME,
     }
