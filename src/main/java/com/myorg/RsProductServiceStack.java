@@ -14,7 +14,8 @@ public class RsProductServiceStack extends Stack {
 
         GetProducts getProducts = new GetProducts(this, "ProductsList");
         GetProductsById getProductsById = new GetProductsById(this, "ProductsById");
+        CreateProduct createProduct = new CreateProduct(this, "CreateProduct");
 
-        ApiGateway apiGateway = new ApiGateway(this, "ApiGateway", getProducts.getFunction(), getProductsById.getFunction());
+        ApiGateway apiGateway = new ApiGateway(this, "ApiGateway", getProducts.getFunction(), getProductsById.getFunction(), createProduct.getFunction());
     }
 }
