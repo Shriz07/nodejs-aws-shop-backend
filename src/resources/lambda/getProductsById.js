@@ -10,7 +10,7 @@ const headers = {
 };
 
 exports.handler = async (event) => {
-    console.log('Get product by ID request', JSON.stringify(event.pathParameters));
+    console.log('Get product by ID request', JSON.stringify(event));
     const notFoundResponse = {
       "message": "Product not found"
     };
