@@ -1,4 +1,4 @@
-package com.myorg;
+package com.myorg.productservice;
 
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,7 @@ public class GetProducts extends Stack {
 
         getProductsListFunction = Function.Builder.create(this, "GetProductsListHandler")
         .runtime(Runtime.NODEJS_20_X)
-        .code(Code.fromAsset("src/resources/lambda"))
+        .code(Code.fromAsset("./resources/productservice/lambda"))
         .handler("getProductsList.handler")
         .environment(Map.of(
             "DB_REGION", region,

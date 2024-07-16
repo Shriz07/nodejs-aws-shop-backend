@@ -1,0 +1,18 @@
+{
+    "scripts": {
+        "build": "tsc",
+        "prepare": "npm run build && xcopy /E /I node_modules dist\\node_modules && xcopy package.json dist\\"
+    },
+    "dependencies": {
+        "@aws-sdk/client-dynamodb": "^3.25.0",
+        "@aws-sdk/s3-request-presigner": "^3.609.0",
+        "@aws-sdk/util-dynamodb": "^3.25.0",
+        "@types/aws-lambda": "^8.10.141",
+        "aws-lambda": "^1.0.7",
+        "csv-parser": "^3.0.0",
+        "uuid": "^9.0.0"
+    },
+    "devDependencies": {
+        "typescript": "^5.5.3"
+    }
+}

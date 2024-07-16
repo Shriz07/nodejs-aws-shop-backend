@@ -1,4 +1,4 @@
-package com.myorg;
+package com.myorg.productservice;
 
 import java.util.List;
 import java.util.Map;
@@ -11,43 +11,43 @@ import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
 import software.constructs.Construct;
 
-public class CreateProduct extends Stack {
+public class GetProductsById extends Stack {
 
-    private final Function createProductFunction;
+    private final Function getProductsByIdFunction;
 
-    public CreateProduct(final Construct scope, final String id) {
+    public GetProductsById(final Construct scope, final String id) {
         this(scope, id, null);
     }
 
-    public CreateProduct(final Construct scope, final String id, final StackProps props) {
+    public GetProductsById(final Construct scope, final String id, final StackProps props) {
         super(scope, id, props);
 
         String region = Stack.of(this).getRegion();
         String accountId = Stack.of(this).getAccount();
 
-        createProductFunction = Function.Builder.create(this, "CreateProductHandler")
-            .runtime(Runtime.NODEJS_20_X)
-            .code(Code.fromAsset("src/resources/lambda"))
-            .handler("createProduct.handler")
-            .environment(Map.of(
-                "DB_REGION", region,
-                "PRODUCTS_TABLE_NAME", "products",
-                "STOCKS_TABLE_NAME", "stocks"
-            ))
-            .build();
+        getProductsByIdFunction = Function.Builder.create(this, "GetProductByIdListHandler")
+        .runtime(Runtime.NODEJS_20_X)
+        .code(Code.fromAsset("./resources/productservice/lambda"))
+        .handler("getProductsById.handler")
+        .environment(Map.of(
+            "DB_REGION", region,
+            "PRODUCTS_TABLE_NAME", "products",
+            "STOCKS_TABLE_NAME", "stocks"
+        ))
+        .build();
 
         PolicyStatement dynamoDbPolicy = PolicyStatement.Builder.create()
-            .actions(List.of("dynamodb:PutItem", "dynamodb:TransactWriteItems"))
+            .actions(List.of("dynamodb:Scan", "dynamodb:Query", "dynamodb:GetItem"))
             .resources(List.of(
                 "arn:aws:dynamodb:" + region + ":" + accountId + ":table/products",
                 "arn:aws:dynamodb:" + region + ":" + accountId + ":table/stocks"
             ))
             .build();
 
-            createProductFunction.addToRolePolicy(dynamoDbPolicy);
+        getProductsByIdFunction.addToRolePolicy(dynamoDbPolicy);
     }
 
     public Function getFunction() {
-        return  createProductFunction;    
+        return getProductsByIdFunction;
     }
 }
