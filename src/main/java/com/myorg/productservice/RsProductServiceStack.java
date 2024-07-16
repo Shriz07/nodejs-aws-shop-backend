@@ -1,4 +1,4 @@
-package com.myorg;
+package com.myorg.productservice;
 
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
